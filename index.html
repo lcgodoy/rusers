@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Voronoi Data Linkage</title>
+    <meta charset="utf-8">
+    <meta name="author" content="   Lucas da Cunha Godoy   Luis Gustavo Silva e Silva   Douglas Roberto Mesquita    1st Conference on Statistics and Data Science   Salvador - Bahia, Brasil" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style/shinobi.css" type="text/css" />
+    <link rel="stylesheet" href="style/ninpo.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Voronoi Data Linkage
+## Extracting Information from Polygons to Points
+### <br><br> Lucas da Cunha Godoy <br> Luis Gustavo Silva e Silva <br> Douglas Roberto Mesquita <br><br> 1st Conference on Statistics and Data Science <br> Salvador - Bahia, Brasil <br>
+### <br>2018/10/16
+
+---
+
+
+
+
+class: middle bg-main1 hide-slide-number
+
+.outline[
+## Outline
+
+* Introduction
+* Method
+* Application
+* Conclusion
+]
+
+---
+
+
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font5[Introduction]
+]]
+
+---
+
+class: middle center bg-main1
+
+# What is .text-hl[Data Linkage]?
+
+--
+
+&lt;br&gt;
+## It is a method used to gather .text-hl[information] from 
+## .text-hl[different sources], giving rise to .text-hl[richer datasets]
+
+---
+
+class: middle center bg-main2
+
+# What is .text-hl[Spatial Join]?
+
+--
+
+&lt;br&gt;
+## It is a .text-hl[GIS] operation used to .text-hl[combine information] 
+## from different sources of .text-hl[spatial data] based on a given
+## relationship between their spatial features
+
+---
+
+class: split-two
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+]]
+]]
+
+.column.bg-main5[.content.vmiddle.center[
+<i class="fas  fa-question fa-5x "></i>
+]]
+
+---
+
+class: split-two fade-row2-col1 fade-row3-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons <i class="fas  fa-arrow-left "></i> Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+]]
+]]
+.column.bg-white[.content.vmiddle.center[
+![](index_files/figure-html/int_im1-1.svg)&lt;!-- --&gt;
+]]
+
+---
+
+class: split-two fade-row2-col1 fade-row3-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons <i class="fas  fa-arrow-left "></i> Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+]]
+]]
+.column.bg-white[.content.vmiddle.center[
+![](index_files/figure-html/int_im2-1.svg)&lt;!-- --&gt;
+]]
+
+---
+
+class: split-two fade-row1-col1 fade-row3-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons <i class="fas  fa-arrow-left "></i> Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+## Polygons <i class="fas  fa-arrow-left "></i> Points 
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+]]
+]]
+
+.column.bg-white[.content.vmiddle.center[
+![](index_files/figure-html/int_im3-1.svg)&lt;!-- --&gt;
+]]
+
+---
+
+class: split-two fade-row1-col1 fade-row3-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons <i class="fas  fa-arrow-left "></i> Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+## Polygons <i class="fas  fa-arrow-left "></i> Points 
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+]]
+]]
+
+.column.bg-white[.content.vmiddle.center[
+![](index_files/figure-html/int_im4-1.svg)&lt;!-- --&gt;
+]]
+
+---
+
+class: split-two fade-row1-col1 fade-row2-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons <i class="fas  fa-arrow-left "></i> Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+## Polygons <i class="fas  fa-arrow-left "></i> Points 
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+## Points <i class="fas  fa-arrow-left "></i> Polygons
+]]
+]]
+
+.column.bg-white[.content.vmiddle.center[
+![](index_files/figure-html/int_im5-1.svg)&lt;!-- --&gt;
+]]
+
+---
+
+class: split-two fade-row1-col1 fade-row2-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons <i class="fas  fa-arrow-left "></i> Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+## Polygons <i class="fas  fa-arrow-left "></i> Points 
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+## Points <i class="fas  fa-arrow-left "></i> Polygons
+]]
+]]
+
+.column.bg-main5[.content.vmiddle.center[
+<i class="fas  fa-question fa-5x "></i>
+]]
+
+---
+
+
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font5[Method]
+]]
+
+---
+
+class: middle center bg-main1
+count: false
+
+# .text-hl[Definitions]
+
+---
+
+class: bg-main2
+
+.split-two[
+.column[.content.vmiddle.center[
+![](index_files/figure-html/met_img1-1.svg)&lt;!-- --&gt;
+]]
+
+.column[.content.vmiddle.center[
+### `$$Y = \{Y_1, ..., Y_{n_y} \}$$`, where `\(Y_i \in A \forall i\)`.
+]]
+]
+
+---
+
+class: bg-main2
+
+.split-two[
+.column[
+.content.vmiddle.center[
+![](index_files/figure-html/met_img2-1.svg)&lt;!-- --&gt;
+]]
+
+.column[
+.content.vmiddle.center[
+### `\(Z = \{Z_1, ..., Z_{n_z} \}\)`, where `\(\cup_{i = 1}^{n_z} Z_i = A\)`.
+
+&lt;br&gt;
+
+### `\(X_k = \{X_{k,1}, ..., X_{k,p} \}\)` is a vector of continous variables belonging
+### to `\(Z_k\)`.
+]]]
+
+---
+
+class: middle center bg-main1
+
+# How can we .text-hl[extract data] from Spatial .text-hl[Polygons] to Spatial .text-hl[Points]?
+
+--
+
+Consider that we want to extract, or estimate, the variable `\(X_{., 1}\)` observed in
+the spatial polygons `\(\{Z\}\)` for each point `\(\{Y\}\)`.
+
+---
+
+class: center middle bg-main1
+count: false
+
+# .text-hl[Naive Approach]
+
+---
+
+class: center bg-main1
+
+.split-two[
+
+.column[.content.vmiddle.center[
+![](index_files/figure-html/met_img3-1.svg)&lt;!-- --&gt;
+]]
+
+.column[.content.vmiddle.center[
+### `\(X^*_{k,1} = \{ X_{j, 1} : Y_k \subset Z_j  \}\)`
+]]
+]
+
+---
+
+class: center middle bg-main1
+
+&lt;br&gt;
+
+### `$$E[X^*_{k, 1}] = E[\{ X_{j, 1} : Y_k \subset Z_j \}]$$`
+
+&lt;br&gt;
+
+### `$$Var[X^*_{k, 1}] = Var[\{ X_{j, 1} : Y_k \subset Z_j \}]$$`
+
+---
+
+class: center middle bg-main2
+count: false
+
+# .text-hl[Voronoi Data Linkage]
+
+---
+
+class: center middle bg-main2
+
+# Voronoi Tessellation
+
+![](img/vor_ex.gif)
+
+---
+
+class: center middle bg-main2
+
+.split-two[
+.column[
+.content.vmiddle.center[
+![](index_files/figure-html/met_img4-1.svg)&lt;!-- --&gt;
+]]
+
+.column[
+.content.vmiddle.center[
+Now, we have a voronoi cell `\(V_k\)` associated to each point `\(Y_k\)`.
+]]
+
+]
+
+---
+
+class: center middle bg-main2
+
+.split-two[
+.column[
+.content.vmiddle.center[
+![](img/poly_inter.gif)
+]]
+
+.column[
+.content.vmiddle.center[
+### `\(p_{j, k} = \frac{Area(Z_j \cap V_k)}{Area(V_k)}\)`
+]]
+]
+
+---
+
+class: center middle bg-main2
+
+### `\(X^*_{k, 1} = \sum_{i = 1}^{n_z} p_{i, k} X_{i, 1}\)`
+
+--
+
+&lt;br&gt;
+
+### `\(E[X^*_{k, 1}] = \sum_{i = 1}^{n_z} p_{i, k} E[X_{i, 1}]\)`
+
+--
+
+### `\(Var[X^*_{k, 1}] = \sum_{i = 1}^{n_z} p^2_{i, k} Var[X_{i, 1}] + 2 \mathop{\sum \sum}_{i &lt; j} p_{j, k} p_{i, k} Cov(X_{j, 1}, X_{i, 1})\)`
+
+---
+
+class: center middle bg-main3
+count: false
+
+# .text-hl[Recap]
+
+---
+
+class: bg-main3 middle
+
+### Naive Approach
+
+* `\(Var[X^*_{k, 1}] = Var[\{ X_{j, 1} : Y_k \subset Z_j \}]\)`
+* Does not take advantage of all available data;
+* More variability;
+* Does not inherit the autocovariance structure from data;
+
+### Voronoi Data Linkage
+
+* `\(Var[X^*_{k, 1}] = \sum_{i = 1}^{n_z} p^2_{i, k} Var[X_{i, 1}] + 2 \mathop{\sum \sum}_{i &lt; j} p_{j, k} p_{i, k} Cov(X_{j, 1}, X_{i, 1})\)`
+* Takes advatange of all available data;
+* Less variability;
+* Inherits the autocovariance structure from data;
+
+---
+
+
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font5[Application: Brazil Elections Data]
+]]
+
+---
+
+class: bg-main1 middle
+
+.center[# The Data]
+
+* Data from .text-hl[electoral sections] for President in the city of .text-hl[São Paulo] (2014) - .text-hl[Spatial Points];
+      * Number of electors;
+      * percent of votes for each candidate in the second round
+* Socio demographic data from .text-hl[IBGE census sectros] (2010) - .text-hl[Spatial Polygons];
+      * population, average income, household density, illiteracy rate, proportion of white people, proportion of women, and several variables about the proportion of people in different ages groups. 
+
+---
+
+class: bg-main1 middle center
+
+# Prediction
+
+&lt;img src="img/boxplot_pred.png" width=600px&gt;
+
+&lt;br&gt;
+&lt;br&gt;
+
+For more analysis on this dataset, see [this link](https://lcgodoy.github.io/rbras/#27)
+
+---
+
+
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font5[Conclusions and Future Work]
+]]
+
+---
+
+class: bg-main5 middle center hide-slide-number
+
+# <i class="fas  fa-envelope-open "></i> lucasdac.godoy@gmail.com
+# [<i class="fab  fa-github "></i>](https:://github.com/lcgodoy) github.com/lcgodoy
+# [<i class="fas  fa-globe "></i>](https:://lcgodoy.github.io) lcgodoy.github.io
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "monokai-sublime",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"seal": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

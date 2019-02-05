@@ -1,0 +1,16 @@
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font5[Conclusions and Future Work]
+]]
+
+---
+
+class: bg-main5 middle center hide-slide-number
+
+# `r icon::fa_envelope_open()` lucasdac.godoy@gmail.com
+# [`r icon::fa_github()`](https:://github.com/lcgodoy) github.com/lcgodoy
+# [`r icon::fa_globe()`](https:://lcgodoy.github.io) lcgodoy.github.io

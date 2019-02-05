@@ -1,0 +1,35 @@
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font5[Application: Brazil Elections Data]
+]]
+
+---
+
+class: bg-main1 middle
+
+.center[# The Data]
+
+* Data from .text-hl[electoral sections] for President in the city of .text-hl[São Paulo] (2014) - .text-hl[Spatial Points];
+      * Number of electors;
+      * percent of votes for each candidate in the second round
+* Socio demographic data from .text-hl[IBGE census sectros] (2010) - .text-hl[Spatial Polygons];
+      * population, average income, household density, illiteracy rate, proportion of white people, proportion of women, and several variables about the proportion of people in different ages groups. 
+
+---
+
+class: bg-main1 middle center
+
+# Prediction
+
+<img src="img/boxplot_pred.png" width=600px>
+
+<br>
+<br>
+
+For more analysis on this dataset, see [this link](https://lcgodoy.github.io/rbras/#27)
+
+---

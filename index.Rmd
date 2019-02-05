@@ -1,0 +1,157 @@
+---
+title: "Voronoi Data Linkage"
+subtitle: "Extracting Information from Polygons to Points"
+author: "<br><br> Lucas da Cunha Godoy <br> Luis Gustavo Silva e Silva <br> Douglas Roberto Mesquita <br><br> 1st Conference on Statistics and Data Science <br> Salvador - Bahia, Brasil <br>"
+date: "<br>2018/10/16"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["style/shinobi.css", "ninjutsu", "style/ninpo.css"]
+    self_contained: false
+    nature:
+      ratio: "16:9"
+      highlightStyle: monokai-sublime
+      highlightLines: true
+      countIncrementalSlides: false
+      seal: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = FALSE, eval = T, warning = F, message = F, dev = 'CairoSVG')
+library(sf)
+library(ggplot2)
+library(patchwork)
+# library(dplyr)
+# library(magrittr)
+# library(mapsBR)
+
+#---- Generate data ----
+
+set.seed(123)
+
+# poly set 1
+
+polys <- vector(mode = 'list', length = 100)
+
+polys[[1]] <- st_polygon(list(rbind(c(0, 0), c(.1, 0), 
+                                    c(.1, .1), c(0, .1), 
+                                    c(0, 0))))
+
+for(i in seq_along(polys)[-1]) {
+  if(i <= 10) {
+    polys[[i]] <- polys[[i - 1]] + c(.1, 0)
+  } else {
+    polys[[i]] <- polys[[i - 10]] + c(0, .1)
+  }
+}
+
+x <- st_sfc(polys)
+
+# poly set 2
+
+polys2 <- vector(mode = 'list', length = 25)
+
+polys2[[1]] <- st_polygon(list(rbind(c(0, 0), c(.2, 0), 
+                                     c(.2, .2), c(0, .2), 
+                                     c(0, 0))))
+
+for(i in seq_along(polys2)[-1]) {
+  if(i <= 5) {
+    polys2[[i]] <- polys2[[i - 1]] + c(.2, 0)
+  } else {
+    polys2[[i]] <- polys2[[i - 5]] + c(0, .2)
+  }
+}
+
+x2 <- st_sfc(polys2)
+
+# points set 
+
+n <- 50
+
+points <- vector(mode = 'list', length = n)
+
+for(i in seq_len(n)) {
+  points[[i]] <- st_point(x = c(runif(1), runif(1)))
+}
+
+points <- st_sfc(points)
+
+x <- st_sf(data.frame(geom = x))
+x2 <- st_sf(data.frame(geom = x2))
+points <- st_sf(data.frame(geom = points))
+x1_2 <- x[st_intersects(x, points, sparse = F) %>% apply(1, any),]
+vor <- points$geometry %>% 
+  st_union() %>% 
+  st_voronoi() %>% 
+  st_cast() %>% 
+  {st_sf(data.frame(geom = .))} %>% 
+  st_crop(., st_bbox(x))
+
+(sq1 <- ggplot(data = x) +
+  geom_sf(color = 'black', fill = '#3844D5', 
+          alpha = .8, size = .2) +
+  theme_minimal()) 
+
+(sq2 <- ggplot(data = x2) +
+    geom_sf(color = 'black', fill = '#D53838', 
+            alpha = .8, size = .2) +
+    theme_minimal()) 
+
+(pts1 <- ggplot(data = points) +
+    geom_sf(color = 'black') +
+    theme_minimal())
+
+(sq12 <- ggplot() +
+    geom_sf(data = x, color = 'black', 
+            fill = '#3844D5', alpha = .8,
+            size = .2) +
+    geom_sf(data = x2, color = 'black', 
+            fill = '#D53838', alpha = .8,
+            size = .2) +
+    theme_minimal())
+
+(sq1pt <- ggplot() +
+    geom_sf(data = x, color = 'black', 
+            fill = '#3844D5', alpha = .8,
+            size = .2) +
+    geom_sf(data = points, color = 'black', 
+            fill = 'black') +
+    theme_minimal())
+
+(ptsq1 <- ggplot() +
+    geom_sf(data = x, color = 'black', 
+            fill = 'transparent', size = .2) +
+    geom_sf(data = x1_2, color = 'black', 
+            fill = '#3844D5', alpha = .8,
+            size = .2) +
+    geom_sf(data = points, color = 'black', 
+            fill = 'black') +
+    theme_minimal())
+```
+
+class: middle bg-main1 hide-slide-number
+
+.outline[
+## Outline
+
+* Introduction
+* Method
+* Application
+* Conclusion
+]
+
+---
+
+```{r Intro, child='sections/01-intro.Rmd'}
+```
+
+```{r VDL, child='sections/02-vdl.Rmd'}
+```
+
+```{r Method, child='sections/03-applic.Rmd'}
+```
+
+```{r Conclusion, child='sections/04-conclusion.Rmd'}
+```

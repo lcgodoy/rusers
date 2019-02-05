@@ -1,0 +1,208 @@
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font5[Introduction]
+]]
+
+---
+
+class: middle center bg-main1
+
+# What is .text-hl[Data Linkage]?
+
+--
+
+<br>
+## It is a method used to gather .text-hl[information] from 
+## .text-hl[different sources], giving rise to .text-hl[richer datasets]
+
+---
+
+class: middle center bg-main2
+
+# What is .text-hl[Spatial Join]?
+
+--
+
+<br>
+## It is a .text-hl[GIS] operation used to .text-hl[combine information] 
+## from different sources of .text-hl[spatial data] based on a given
+## relationship between their spatial features
+
+---
+
+class: split-two
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+]]
+]]
+
+.column.bg-main5[.content.vmiddle.center[
+`r icon::fa_question(size = 5)`
+]]
+
+---
+
+class: split-two fade-row2-col1 fade-row3-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons `r icon::fa_arrow_left()` Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+]]
+]]
+.column.bg-white[.content.vmiddle.center[
+```{r int_im1, echo = F, eval = T, fig.width = 5}
+sq1 + sq2 # + plot_layout(ncol = 1)
+```
+]]
+
+---
+
+class: split-two fade-row2-col1 fade-row3-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons `r icon::fa_arrow_left()` Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+]]
+]]
+.column.bg-white[.content.vmiddle.center[
+```{r int_im2, echo = F, eval = T, fig.width = 5}
+sq12
+```
+]]
+
+---
+
+class: split-two fade-row1-col1 fade-row3-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons `r icon::fa_arrow_left()` Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+## Polygons `r icon::fa_arrow_left()` Points 
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+]]
+]]
+
+.column.bg-white[.content.vmiddle.center[
+```{r int_im3, echo = F, eval = T, fig.width = 5}
+sq1 + pts1
+```
+]]
+
+---
+
+class: split-two fade-row1-col1 fade-row3-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons `r icon::fa_arrow_left()` Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+## Polygons `r icon::fa_arrow_left()` Points 
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+]]
+]]
+
+.column.bg-white[.content.vmiddle.center[
+```{r int_im4, echo = F, eval = T, fig.width = 5}
+sq1pt
+```
+]]
+
+---
+
+class: split-two fade-row1-col1 fade-row2-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons `r icon::fa_arrow_left()` Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+## Polygons `r icon::fa_arrow_left()` Points 
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+## Points `r icon::fa_arrow_left()` Polygons
+]]
+]]
+
+.column.bg-white[.content.vmiddle.center[
+```{r int_im5, echo = F, eval = T, fig.width = 5}
+ptsq1
+```
+]]
+
+---
+
+class: split-two fade-row1-col1 fade-row2-col1
+count: false
+
+.column.bg-main1[
+.split-three[
+.row.bg-main1[.content.vmiddle.center[
+# Example 1
+## Polygons `r icon::fa_arrow_left()` Polygons
+]]
+.row.bg-main2[.content.vmiddle.center[
+# Example 2
+## Polygons `r icon::fa_arrow_left()` Points 
+]]
+.row.bg-main3[.content.vmiddle.center[
+# Example 3
+## Points `r icon::fa_arrow_left()` Polygons
+]]
+]]
+
+.column.bg-main5[.content.vmiddle.center[
+`r icon::fa_question(size = 5)`
+]]
+
+---
