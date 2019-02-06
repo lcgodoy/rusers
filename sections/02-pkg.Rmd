@@ -1,0 +1,81 @@
+class: bg-main1 split-30 hide-slide-number
+
+.column.bg-main3[
+]
+.column.slide-in-right[
+.sliderbox.bg-main2.vmiddle[
+.font5[[transpbrr](https://stats4good.github.io/transpbrr/)]
+]]
+
+---
+
+class: middle center bg-main3
+
+# .text-hl[Codigo]
+
+---
+
+class: middle
+
+```{r echo = T, eval = F}
+download_orcamento <- function(year = NULL, ...) {
+  if(any(!is.numeric(year)) | any(!year %in% 2014:as.numeric(format(Sys.Date(), '%Y'))))
+    stop('Year must be a integer value between 2014 and 2018.')
+
+  temp_dir <- tempdir()
+  link <- ('http://www.portaltransparencia.gov.br/download-de-dados/orcamento-despesa/%d')
+
+  lapply(list.files(path = temp_dir, pattern = '.csv$', full.names = T),
+         file.remove) %>% invisible()
+ ... 
+ 
+```
+
+---
+
+class: middle
+
+```{r echo = T, eval = F}
+ ...
+
+  for(i in year) {
+    file_name <- paste0(sprintf('orcamento_%d', i), '.zip')
+    dest <- file.path( temp_dir, file_name)
+    file.create(dest)
+    utils::download.file(url = sprintf(link, i), destfile = dest, quiet = T, mode = 'wb')
+    if(.Platform$OS.type == "windows") {
+      utils::unzip(zipfile = dest, exdir = temp_dir, unzip = 'internal')
+    } else {
+      utils::unzip(zipfile = dest, exdir = temp_dir)
+    }
+  }
+
+ ...
+```
+
+---
+
+class: middle
+
+```{r echo = T, eval = F}
+ ...
+ 
+  out <- lapply(list.files(path = temp_dir, pattern = '.csv$', full.names = T),
+                function(x) {
+                  aux <- suppressWarnings(data.table::fread(x, dec = ',', sep = ';',
+                                                            encoding = 'Latin-1', stringsAsFactors = F))
+                  names(aux) <- trimws(iconv(names(aux), from = 'LATIN1', to = 'ASCII//TRANSLIT'), 'b')
+                  char_fct <- which(sapply(aux, is.character))
+                  aux[, c(char_fct) := lapply(.SD, function(x) {
+                    iconv(x, from = 'LATIN1', to = 'ASCII//TRANSLIT')
+                  }), .SDcols = char_fct]
+                  aux
+                }) %>% data.table::rbindlist()
+
+  unlink(list.files(temp_dir, full.names = T), recursive = T)
+
+  return(out)
+}
+```
+
+---

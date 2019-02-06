@@ -1,7 +1,7 @@
 ---
-title: "Voronoi Data Linkage"
-subtitle: "Extracting Information from Polygons to Points"
-author: "<br><br> Lucas da Cunha Godoy <br> Luis Gustavo Silva e Silva <br> Douglas Roberto Mesquita <br><br> 1st Conference on Statistics and Data Science <br> Salvador - Bahia, Brasil <br>"
+title: ".text-hl[transpbrr]"
+subtitle: "UserRS"
+author: "<br><br> Lucas da Cunha Godoy <br> Augusto Marcolin <br><br>"
 date: "<br>2018/10/16"
 output:
   xaringan::moon_reader:
@@ -136,10 +136,11 @@ class: middle bg-main1 hide-slide-number
 .outline[
 ## Outline
 
-* Introduction
-* Method
-* Application
-* Conclusion
+* Introdução
+* O Pacote
+* Exemplo
+* Conclusão
+
 ]
 
 ---
@@ -147,10 +148,10 @@ class: middle bg-main1 hide-slide-number
 ```{r Intro, child='sections/01-intro.Rmd'}
 ```
 
-```{r VDL, child='sections/02-vdl.Rmd'}
+```{r Pkg, child='sections/02-pkg.Rmd'}
 ```
 
-```{r Method, child='sections/03-applic.Rmd'}
+```{r Exemplo, child='sections/03-exempl.Rmd'}
 ```
 
 ```{r Conclusion, child='sections/04-conclusion.Rmd'}
