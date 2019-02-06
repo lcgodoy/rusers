@@ -18,7 +18,7 @@ output:
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(echo = FALSE, eval = T, warning = F, message = F)
+knitr::opts_chunk$set(echo = FALSE, eval = T, warning = F, message = F, dev = 'svg')
 ```
 
 class: middle bg-main1 hide-slide-number

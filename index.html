@@ -6,6 +6,9 @@
     <meta name="author" content="   Lucas da Cunha Godoy   Augusto Marcolin" />
     <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/pymjs/pym.v1.js"></script>
+    <script src="libs/widgetframe-binding/widgetframe.js"></script>
     <link rel="stylesheet" href="style/shinobi.css" type="text/css" />
     <link rel="stylesheet" href="style/ninpo.css" type="text/css" />
   </head>
@@ -245,15 +248,115 @@ class: bg-main1 split-30 hide-slide-number
 
 ---
 
-class: bg-main1 middle
 
-.center[# The Data]
+```r
+library(transpbrr)
+library(dplyr)
+library(ggplot2)
+library(highcharter)
 
-* Data from .text-hl[electoral sections] for President in the city of .text-hl[São Paulo] (2014) - .text-hl[Spatial Points];
-      * Number of electors;
-      * percent of votes for each candidate in the second round
-* Socio demographic data from .text-hl[IBGE census sectros] (2010) - .text-hl[Spatial Polygons];
-      * population, average income, household density, illiteracy rate, proportion of white people, proportion of women, and several variables about the proportion of people in different ages groups. 
+db_cpgf &lt;- download_cp(year = 2014:2018, month = 1:12, type = "cpgf") %&gt;%
+  janitor::clean_names()
+
+glimpse(db_cpgf)
+```
+
+
+```
+## Observations: 747,437
+## Variables: 15
+## $ codigo_orgao_superior  &lt;int&gt; 63000, 63000, 63000, 63000, 63000, 63000,…
+## $ nome_orgao_superior    &lt;chr&gt; "ADVOCACIA-GERAL DA UNIAO", "ADVOCACIA-GE…
+## $ codigo_orgao           &lt;int&gt; 63000, 63000, 63000, 63000, 63000, 63000,…
+## $ nome_orgao             &lt;chr&gt; "ADVOCACIA-GERAL DA UNIAO - UNIDADES COM …
+## $ codigo_unidade_gestora &lt;int&gt; 110096, 110096, 110096, 110096, 110096, 1…
+## $ nome_unidade_gestora   &lt;chr&gt; "SUPERINTENDENCIA ADMINISTRACAO EM PERNAM…
+## $ ano_extrato            &lt;int&gt; 2014, 2014, 2014, 2014, 2014, 2014, 2014,…
+## $ mes_extrato            &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ cpf_portador           &lt;chr&gt; "***.695.684-**", "***.420.984-**", "***.…
+## $ nome_portador          &lt;chr&gt; "JOSELITO PEREIRA MUNIZ", "ARGEMIRO CARNE…
+## $ cnpj_ou_cpf_favorecido &lt;dbl&gt; 2.008637e-311, 2.591937e-311, 4.403422e-3…
+## $ nome_favorecido        &lt;chr&gt; "IMPERIO DE CHAVES E ACESSORIOS LTDA", "S…
+## $ transacao              &lt;chr&gt; "COMPRA A/V - R$ - APRES", "COMPRA A/V - …
+## $ data_transacao         &lt;chr&gt; "06/12/2013", "26/11/2013", "26/11/2013",…
+## $ valor_transacao        &lt;dbl&gt; 20.00, 89.10, 100.00, 185.00, 226.30, 70.…
+```
+
+---
+
+
+```r
+db_ministerio &lt;- db_cpgf %&gt;% 
+  group_by(nome_orgao_superior) %&gt;% 
+  summarise(
+    n = n(),
+    vl_transacao = sum(valor_transacao)
+  ) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(
+    pc_transacao = vl_transacao / sum(vl_transacao)
+  ) %&gt;% 
+  arrange(desc(vl_transacao))
+```
+
+---
+
+class: split-two
+
+.column[
+
+```r
+tooltip &lt;- 'Orgão: &lt;b&gt;{point.nome_orgao_superior}&lt;/b&gt;&lt;br&gt;
+            Valor:{point.vl_transacao}&lt;br&gt;
+            Percentual:{point.pc_transacao}&lt;br&gt;'
+
+hctreemap2(db_ministerio,
+           group_vars = c('nome_orgao_superior'),
+           size_var = 'vl_transacao',
+           color_var = 'pc_transacao',
+           layoutAlgorithm = "squarified",
+           levelIsConstant = F,
+           allowDrillToNode = T,
+           animationLimiti = 1000,
+           dataLabels = list(enabled = F, color = 'black', shadow = F),
+           levels = list(list(level = 1,
+                              dataLabels = list(enabled = T)))) %&gt;%
+  hc_colorAxis(minColor = RColorBrewer::brewer.pal(9, "Greens")[1],
+               maxColor = RColorBrewer::brewer.pal(9, "Greens")[9]) %&gt;%
+  hc_tooltip(backgroundColor = "#e6ffe6",
+             shared = TRUE, 
+             useHTML = T,
+             borderWidth = 5,
+             valueDecimals = 2,
+             pointFormat = tooltip) %&gt;% 
+  widgetframe::frameWidget()
+```
+]
+
+.column[
+<div id="htmlwidget-03e1a190488bb2015c77" style="width:100%;height:504px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-03e1a190488bb2015c77">{"x":{"url":"index_files/figure-html//widgets/widget_unnamed-chunk-8.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+]
+
+---
+
+
+```r
+#---- Gastos em Restaurantes ----
+
+dados_restaurante &lt;- db_cpgf %&gt;%
+  filter(
+    stringr::str_detect(nome_favorecido, "RESTAURANTE|CHURRASCARIA|COCO BAMBU")
+    ) %&gt;%
+  mutate(
+    data = lubridate::ymd(paste(ano_extrato, mes_extrato, "01", sep = '-'))
+    ) %&gt;%
+  mutate_if(is.character, stringr::str_to_title) 
+```
+
+---
+
+![](index_files/figure-html/unnamed-chunk-10-1.svg)&lt;!-- --&gt;
 
 ---
 
