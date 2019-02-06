@@ -2,7 +2,7 @@
 title: ".text-hl[transpbrr]"
 subtitle: "UserRS"
 author: "<br><br> Lucas da Cunha Godoy <br> Augusto Marcolin <br><br>"
-date: "<br>2018/10/16"
+date: "<br>2019/02/06"
 output:
   xaringan::moon_reader:
     lib_dir: libs

@@ -115,3 +115,9 @@ dados_restaurante %>%
   labs(x = 'Ministério', y = "Percentual") +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   theme_bw()
+
+dados_restaurante %>%  
+  arrange(desc(valor_transacao)) %>% 
+  select(nome_orgao, nome_portador, 
+         valor_transacao, nome_favorecido) %>% 
+  as_tibble()
