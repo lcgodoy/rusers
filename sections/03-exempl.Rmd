@@ -9,7 +9,7 @@ class: bg-main1 split-30 hide-slide-number
 
 ---
 
-class: bg-main3
+class: bg-main3 middle center
 
 # .text-hl[Hands on]
 
