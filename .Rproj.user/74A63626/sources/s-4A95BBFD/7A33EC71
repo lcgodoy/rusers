@@ -4,15 +4,15 @@
     "created" : 1549409220214.000,
     "dirty" : true,
     "encoding" : "UTF-8",
-    "folds" : "18|27|131|0|\n",
+    "folds" : "",
     "hash" : "0",
     "id" : "7A33EC71",
     "lastKnownWriteTime" : 1549411085,
-    "last_content_update" : 1549414099103,
+    "last_content_update" : 1549416146240,
     "path" : "~/Documents/github/rusers/index.Rmd",
     "project_path" : "index.Rmd",
     "properties" : {
-        "cursorPosition" : "140,9",
+        "cursorPosition" : "29,10",
         "scrollLine" : "15"
     },
     "relative_order" : 1,
